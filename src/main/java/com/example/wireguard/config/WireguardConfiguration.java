@@ -1,6 +1,6 @@
 package com.example.wireguard.config;
 
-import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.List;
 
 import lombok.Data;
@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class WireguardConfiguration {
     private String name;
-    private Inet4Address address;
+    private InetAddress address;
     private int listenPort;
     private String privateKey;
-    private List<Inet4Address> dns;
+    private List<InetAddress> dns;
     private int table;
     private int mtu;
     private String preUp;
