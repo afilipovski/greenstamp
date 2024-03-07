@@ -1,5 +1,7 @@
 package com.example.util;
 
+import java.util.List;
+
 public class StringUtils {
     public static Integer tryParseInt(String str) {
         try {
@@ -16,6 +18,15 @@ public class StringUtils {
         }
         catch (NullPointerException e) {
             return new String[0];
+        }
+    }
+
+    public static String tryJoin(String delim, List<String> list) {
+        try {
+            return String.join(delim, list);
+        }
+        catch (NullPointerException e) {
+            return null;
         }
     }
 }
