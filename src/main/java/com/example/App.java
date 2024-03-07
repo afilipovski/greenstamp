@@ -9,6 +9,6 @@ public class App
     {
         ConfigurationReader cr = new ConfigurationReader();
         WireguardConfiguration wc = cr.readConfig();
-        // System.out.println(wc.getPrivateKey());
+        System.out.println(wc);
     }
 }
