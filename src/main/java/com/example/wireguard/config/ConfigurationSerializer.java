@@ -11,16 +11,16 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 import com.example.util.StringUtils;
 
-public class ConfigurationReader {
+public class ConfigurationSerializer {
     public WireguardConfiguration readConfig(File file) {
         Ini ini = new Ini();
         ini.getConfig().setMultiSection(true);
         try {
             ini.load(file);
         } catch (InvalidFileFormatException e) {
-            e.printStackTrace();
+            System.err.println(file.getAbsolutePath() + " is not a valid WireGuard config file.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Couldn't open " + file.getAbsolutePath());
         }
 
         Section interfaceSection = ini.get("Interface");
@@ -58,26 +58,36 @@ public class ConfigurationReader {
 
         ini.getConfig().setEscape(false);
 
-        String interfaceHeader = "Interface";
-        String peerHeader = "Peer";
+        Section interfaceSection = ini.add("Interface");
 
-        ini.add(interfaceHeader,"Address",wc.getAddress());
-        ini.get("Interface").putComment("Address",wc.getName());
-        ini.add(interfaceHeader,"ListenPort",wc.getListenPort());
-        ini.add(interfaceHeader,"PrivateKey",wc.getPrivateKey());
-        ini.add(interfaceHeader,"DNS",StringUtils.tryJoin(",", wc.getDns()));
-        ini.add(interfaceHeader,"Table",wc.getTable());
-        ini.add(interfaceHeader,"MTU",wc.getMtu());
-        ini.add(interfaceHeader,"PreUp",wc.getPreUp());
-        ini.add(interfaceHeader,"PostUp",wc.getPostUp());
-        ini.add(interfaceHeader,"PreDown",wc.getPreDown());
-        ini.add(interfaceHeader,"PostDown",wc.getPostDown());
+        interfaceSection.add("Address",wc.getAddress());
+        interfaceSection.putComment("Address",wc.getName());
+        interfaceSection.add("ListenPort",wc.getListenPort());
+        interfaceSection.add("PrivateKey",wc.getPrivateKey());
+        interfaceSection.add("DNS",StringUtils.tryJoin(",", wc.getDns()));
+        interfaceSection.add("Table",wc.getTable());
+        interfaceSection.add("MTU",wc.getMtu());
+        interfaceSection.add("PreUp",wc.getPreUp());
+        interfaceSection.add("PostUp",wc.getPostUp());
+        interfaceSection.add("PreDown",wc.getPreDown());
+        interfaceSection.add("PostDown",wc.getPostDown());
+
+        wc.getPeers().stream().forEach(peer -> {
+            Section peerSection = ini.add("Peer");
+
+            peerSection.add("AllowedIPs", StringUtils.tryJoin(",", peer.getAllowedIPs()));
+            peerSection.putComment("AllowedIPs", peer.getName());
+            peerSection.add("Endpoint", peer.getEndpoint());
+            peerSection.add("PublicKey", peer.getPublicKey());
+            peerSection.add("PresharedKey", peer.getPresharedKey());
+            peerSection.add("PersistentKeepalive", peer.getPersistentKeepalive());
+        });
+
 
         try {
             ini.store(file);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println("Couldn't open " + file.getAbsolutePath());
         }
         
         return file;
