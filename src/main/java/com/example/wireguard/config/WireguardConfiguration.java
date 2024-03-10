@@ -20,6 +20,4 @@ public class WireguardConfiguration {
     private String preDown;
     private String postDown;
     private List<WireguardPeer> peers;
-
-
 }

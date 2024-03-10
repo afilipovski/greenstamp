@@ -12,7 +12,7 @@ import org.ini4j.Profile.Section;
 import com.example.util.StringUtils;
 
 public class ConfigurationSerializer {
-    public WireguardConfiguration readConfig(File file) {
+    public static WireguardConfiguration readConfig(File file) {
         Ini ini = new Ini();
         ini.getConfig().setMultiSection(true);
         try {
@@ -53,7 +53,7 @@ public class ConfigurationSerializer {
         );
     }
 
-    public File writeConfig(WireguardConfiguration wc, File file) {
+    public static File writeConfig(WireguardConfiguration wc, File file) {
         Ini ini = new Ini();
 
         ini.getConfig().setEscape(false);

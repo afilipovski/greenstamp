@@ -1,11 +1,13 @@
-package com.example.wireguard.client;
+package com.example.wireguard.client.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class WireguardClientImpl implements WireguardClient {
+import com.example.wireguard.client.Keygen;
+
+public class KeygenImpl implements Keygen {
     private String getExecOutput(String command, String input) {
         try {
             Process proc = Runtime.getRuntime().exec(command);
