@@ -1,5 +1,8 @@
 package com.example.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StringUtils {
 
     /**
@@ -20,16 +23,17 @@ public class StringUtils {
      * 
      * @param String to split.
      * @param Regular expression.
-     * @return If string is null, returns an empty array. If regex is null, returns an array containing only the string. Otherwise, returns an array of strings after splitting.
+     * @return If string is null, returns null. If regex is null, returns a list containing only the string.
+     *         Otherwise, returns a list of strings after splitting.
      */
-    public static String[] trySplit(String str, String regex) {
+    public static List<String> trySplitIntoList(String str, String regex) {
         try {
-            return str.split(regex);
+            return Arrays.asList(str.split(regex));
         }
         catch (NullPointerException e) {
             if (str == null)
-                return new String[0];
-            return new String[]{str};
+                return null;
+            return List.of(str);
         }
     }
 

@@ -3,7 +3,6 @@ package com.example.wireguard.config;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.ini4j.Ini;
@@ -33,7 +32,7 @@ public class ConfigurationSerializer {
             interfaceSection.get("Address"),
             StringUtils.tryParseInt(interfaceSection.get("ListenPort")),
             interfaceSection.get("PrivateKey"),
-            Arrays.asList(StringUtils.trySplit(interfaceSection.get("DNS"), ",")),
+            StringUtils.trySplitIntoList(interfaceSection.get("DNS"), ","),
             StringUtils.tryParseInt(interfaceSection.get("Table")),
             StringUtils.tryParseInt(interfaceSection.get("MTU")),
             interfaceSection.get("PreUp"),
@@ -43,7 +42,7 @@ public class ConfigurationSerializer {
             peersSections.stream().map(peerSection -> {
                 return new WireguardPeer(
                     peerSection.getComment("AllowedIPs"),
-                    Arrays.asList(StringUtils.trySplit(peerSection.get("AllowedIPs"), ",")),
+                    StringUtils.trySplitIntoList(peerSection.get("AllowedIPs"), ","),
                     peerSection.get("Endpoint"),
                     peerSection.get("PublicKey"),
                     peerSection.get("PresharedKey"),
