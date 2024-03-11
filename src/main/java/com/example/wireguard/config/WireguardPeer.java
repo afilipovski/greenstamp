@@ -13,5 +13,5 @@ public class WireguardPeer {
     private String endpoint;
     private String publicKey;
     private String presharedKey;
-    private int persistentKeepalive;
+    private Integer persistentKeepalive;
 }

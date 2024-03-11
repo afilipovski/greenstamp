@@ -10,13 +10,15 @@ import com.example.wireguard.config.ConfigurationSerializer;
 import com.example.wireguard.config.WireguardConfiguration;
 
 public class InterfaceManagerImpl implements InterfaceManager {
-    private static final Path baseConfigPath = Paths.get("./config");
+    private static final Path baseConfigPath = Paths.get("/etc/wireguard");
 
     private void executeWgQuickCommand(String action, WireguardConfiguration configuration) {
-        File file = new File(baseConfigPath.toString() + "/" + configuration.getName());
+        File file = new File(baseConfigPath.toString() + "/" + configuration.getFileName());
         ConfigurationSerializer.writeConfig(configuration, file);
         try {
-            Runtime.getRuntime().exec("wg-quick " + action + " " + file.getAbsolutePath());
+            String command = "wg-quick " + action + " " + configuration.getCleanName();
+            System.out.println(command);
+            Runtime.getRuntime().exec(command);
         } catch (IOException e) {
             System.err.println("Wg-quick " + action + " failed");
         }

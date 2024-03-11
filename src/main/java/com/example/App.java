@@ -11,12 +11,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        WireguardConfiguration wc = ConfigurationSerializer.readConfig(new File("./matilda.conf"));
+        WireguardConfiguration wc = ConfigurationSerializer.readConfig(new File("./config/server.conf"));
         System.out.println(wc);
 
         InterfaceManager im = new InterfaceManagerImpl();
 
         im.create(wc);
-        im.delete(wc);
     }
 }

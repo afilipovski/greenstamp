@@ -20,4 +20,11 @@ public class WireguardConfiguration {
     private String preDown;
     private String postDown;
     private List<WireguardPeer> peers;
+
+    public String getCleanName() {
+        return name.replaceAll("[-+.^:,]","");
+    }
+    public String getFileName() {
+        return getCleanName()+".conf";
+    }
 }
